@@ -7,11 +7,7 @@
 
 {Project Description}
 
-
-
-
 ## Usage
-
 
 ### Build
 
@@ -79,8 +75,8 @@ $ forge test
 
 ## Acknowledgement
 
-This repository was created using a forked template, originally found here: [PaulRBerg/foundry-template](https://github.com/PaulRBerg/foundry-template)
-
+This repository was created using a forked template, originally found here:
+[PaulRBerg/foundry-template](https://github.com/PaulRBerg/foundry-template)
 
 ## License
 

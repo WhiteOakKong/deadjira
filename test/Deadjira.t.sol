@@ -7,7 +7,6 @@ import { StdCheats } from "forge-std/StdCheats.sol";
 
 import { DeadjiraAuction } from "../src/Deadjira.sol";
 
-
 contract DeadjiraTest is PRBTest, StdCheats {
     DeadjiraAuction deadjiraAuction;
 
@@ -53,7 +52,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
     function testPurchase() public {
         vm.prank(DEPLOYER);
         deadjiraAuction.startAuction();
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         assertEq(deadjiraAuction.buyers(0), address(this));
         assertEq(deadjiraAuction.purchased(deadjiraAuction.buyers(0)), 3.33 ether);
     }
@@ -62,15 +61,15 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.prank(DEPLOYER);
         deadjiraAuction.startAuction();
         vm.expectRevert();
-        deadjiraAuction.purchaseAuction{value: 3.22 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.22 ether }("btcAddress", "discordID");
     }
 
     function test_AlreadyPurchased_Purchase() public {
         vm.prank(DEPLOYER);
         deadjiraAuction.startAuction();
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         vm.expectRevert();
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
     }
 
     function test_togglePause() public {
@@ -87,7 +86,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.deal(DEPLOYER, 100 ether);
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         uint256 startingBalance = DEPLOYER.balance;
         uint256 refundAmount = 3.33 ether - 1.11 ether;
         vm.prank(DEPLOYER);
@@ -104,7 +103,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.deal(DEPLOYER, 100 ether);
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         uint256 startingBalance = DEPLOYER.balance;
         vm.prank(DEPLOYER);
         deadjiraAuction.togglePause();
@@ -120,10 +119,10 @@ contract DeadjiraTest is PRBTest, StdCheats {
             address user = vm.addr(i + 1);
             vm.prank(user);
             vm.deal(user, 100 ether);
-            deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+            deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         }
         vm.expectRevert();
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
     }
 
     function test_StartAlreadyStarted_startAuction() public {
@@ -139,12 +138,12 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.deal(DEPLOYER, 100 ether);
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         vm.prank(DEPLOYER);
         deadjiraAuction.togglePause();
         vm.prank(DEPLOYER);
         vm.expectRevert();
-        deadjiraAuction.refund(1.10 ether);
+        deadjiraAuction.refund(1.1 ether);
     }
 
     function test_RefundNoRefund_refund() public {
@@ -152,7 +151,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.deal(DEPLOYER, 100 ether);
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         uint256 startingValue = DEPLOYER.balance;
         vm.prank(DEPLOYER);
         deadjiraAuction.togglePause();
@@ -167,7 +166,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
         vm.deal(DEPLOYER, 100 ether);
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
     }
 
     function test_getTotalPurchased() public {
@@ -176,7 +175,7 @@ contract DeadjiraTest is PRBTest, StdCheats {
         deadjiraAuction.startAuction();
         vm.prank(DEPLOYER);
         vm.deal(DEPLOYER, 100 ether);
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         uint256 totalPurchased = deadjiraAuction.getTotalPurchased();
         assertEq(totalPurchased, 1);
     }
@@ -184,9 +183,8 @@ contract DeadjiraTest is PRBTest, StdCheats {
     function test_getUserPurchaseData() public {
         vm.prank(DEPLOYER);
         deadjiraAuction.startAuction();
-        deadjiraAuction.purchaseAuction{value: 3.33 ether}("btcAddress", "discordID");
+        deadjiraAuction.purchaseAuction{ value: 3.33 ether }("btcAddress", "discordID");
         uint256 value = deadjiraAuction.getUserPurchaseData(address(this));
         assertEq(value, 3.33 ether);
     }
 }
-

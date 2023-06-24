@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {Ownable} from "open-zeppelin/contracts/access/Ownable.sol";
-import {Pausable} from "open-zeppelin/contracts/security/Pausable.sol";
+import { Ownable } from "open-zeppelin/contracts/access/Ownable.sol";
+import { Pausable } from "open-zeppelin/contracts/security/Pausable.sol";
 
 /// @title DeadjiraAuction
 /// @author WhiteOakKong
@@ -87,7 +87,7 @@ contract DeadjiraAuction is Ownable, Pausable {
     /// @dev Can only be called when the contract is paused and by the contract owner.
     function withdraw() external whenPaused onlyOwner {
         if (withdrawAddress == address(0)) revert WithdrawAddressNotSet();
-        (bool success, ) = payable(withdrawAddress).call{value: address(this).balance}("");
+        (bool success,) = payable(withdrawAddress).call{ value: address(this).balance }("");
         require(success, "Transfer failed.");
     }
 
@@ -109,7 +109,7 @@ contract DeadjiraAuction is Ownable, Pausable {
         for (uint256 i = 0; i < _buyers.length; i++) {
             uint256 refundValue = purchased[_buyers[i]] - finalPrice;
             if (refundValue > 0) {
-                (bool success, ) = payable(_buyers[i]).call{value: refundValue}("");
+                (bool success,) = payable(_buyers[i]).call{ value: refundValue }("");
                 require(success, "Transfer failed.");
             }
         }
@@ -141,5 +141,5 @@ contract DeadjiraAuction is Ownable, Pausable {
         return buyers.length;
     }
 
-    receive() external payable {}
+    receive() external payable { }
 }
